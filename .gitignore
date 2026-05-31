@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.docusaurus/
+build/
+build-normal/
+dist/
+*.tgz
+
+# Environment
+.env
+.env.local
+.env.production
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# AI Context (local only)
+.ai-context/
+
+# Claude Code config (skills と project-shared settings は共有、それ以外は local only)
+.claude/*
+!.claude/skills/
+!.claude/skills/**
+!.claude/settings.json
+!.claude/security-denylist.txt
+# skills 配下の再包含で取り込まれる OS ジャンクは再度除外
+.claude/skills/**/.DS_Store

@@ -1,0 +1,37 @@
+{
+  "name": "karura",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "build:offline": "bash scripts/build-offline.sh",
+    "serve": "docusaurus serve",
+    "deploy:s3": "bash scripts/deploy-s3.sh",
+    "clear": "docusaurus clear",
+    "check:markers": "bash scripts/check-markers.sh",
+    "check:security": "bash scripts/security-scan.sh",
+    "prepare": "git config core.hooksPath .githooks",
+    "test": "bash scripts/test-offline-search.sh"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.7.0",
+    "@docusaurus/plugin-client-redirects": "^3.9.2",
+    "@docusaurus/preset-classic": "^3.7.0",
+    "@docusaurus/theme-mermaid": "^3.9.2",
+    "@easyops-cn/docusaurus-search-local": "^0.55.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^3.7.0",
+    "@docusaurus/tsconfig": "^3.9.2",
+    "@docusaurus/types": "^3.7.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}
