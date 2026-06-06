@@ -1,20 +1,39 @@
-# KARURA — AI駆動開発 総合ソリューション
+<div align="center">
+<!-- TODO: ロゴができたら差し替え（static/img/ に配置）
+<img src="static/img/karura-logo.png" alt="KARURA" width="200" />
+-->
 
-KARURAは、生成AIを中核に据えた大規模なAI駆動開発を、ビジネス要求~リリース、そして、保守運用に至るまで一貫した成果物体系として進めるための総合ソリューションです。成果物を生成・更新するための仕組み一式を収録しています。
+# KARURA
 
-## 収録している内容
-- **スキル定義**(`.claude/skills/`）— Claude が各成果物を生成・更新するための振る舞いルール
-- **テンプレート**(各スキル同梱の `template.md`）— 成果物の骨組み(章構成・書き方ヒント）
-- **プロジェクト共通の慣習**([CLAUDE.md](CLAUDE.md)）— プレースホルダ・要確認マーカー・ID 表記・文体などの横断規約
-- **成果物フロー**([docs/D0.project-management/artifact-flow.md](docs/D0.project-management/artifact-flow.md)）— フェーズ間の依存・生成順
-- **セキュリティスキャン**(`scripts/` + git フック）— OSS 公開時のシークレット混入防止
-- **Docusaurus** — 成果物を Wiki サイトとしてプレビューする仕組み
+**ビジネス要求から保守運用まで、成果物を一貫生成する<br>エンタープライズ向け AI 駆動開発総合ソリューション**
+
+[![License](https://img.shields.io/github/license/Acceler-Digital/karura)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/Acceler-Digital/karura?include_prereleases&label=release)](https://github.com/Acceler-Digital/karura/releases)
+[![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?logo=node.js&logoColor=white)](#前提条件)
+[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A59-F69220?logo=pnpm&logoColor=white)](#前提条件)
+[![Docusaurus](https://img.shields.io/badge/docs-Docusaurus%203-3ECC5F?logo=docusaurus)](https://docusaurus.io/)
+ 
+[📘 成果物サンプルを見る](https://github.com/Acceler-Digital/karura-sample-artifacts-individual-life-insurance-new-business) ・ [🗺 成果物フロー](docs/D0.project-management/artifact-flow.md) ・ [🌐 Acceler Digital](https://www.acceler-digital.com/)
+</div>
+
+## KARURA とは
+ 
+KARURAは、生成AI(Claude)を中心とした大規模AI駆動開発を、**ビジネス要求からリリース・保守運用まで一貫した成果物体系**として進めるための総合ソリューションです。成果物を生成・更新するための仕組み一式を収録しています。
+
+| 収録要素 | 内容 |
+| --- | --- |
+| **スキル定義**（`.claude/skills/`） | Claude が各成果物を生成・更新するための振る舞いルール |
+| **テンプレート**（各スキル同梱 `template.md`） | 成果物の骨組み（章構成・書き方ヒント） |
+| **プロジェクト共通規約**（[CLAUDE.md](CLAUDE.md)） | プレースホルダ・ID 表記・文体などの横断ルール |
+| **成果物フロー**（[artifact-flow.md](docs/D0.project-management/artifact-flow.md)） | フェーズ間の依存関係・生成順 |
+| **セキュリティガードレール**（`scripts/` + git フック） | OSS 公開時のシークレット混入を二段スキャンで防止 |
+| **Docusaurus** | 成果物を Wiki サイトとしてプレビュー |
 
 ## KARURAを使った成果物サンプルを見たい場合
 
 KARURAを使った具体的な成果物は以下のリポジトリで参照できます。
 
-👉 **[karura-sample-artifacts-individual-life-insurance-new-business](https://github.com/Acceler-Digital/karura-sample-artifacts-individual-life-insurance-new-business)**
+👉 **[KARURA 成果物サンプル - 生命保険 新契約システム](https://github.com/Acceler-Digital/karura-sample-artifacts-individual-life-insurance-new-business)**
 
 ## 収録しているスキル
 
@@ -139,7 +158,7 @@ Claude Code（claude.ai 経由）から Figma file を読み取り操作でき�
 
 ## 関連リポジトリ
 
-- [karura-sample-artifacts-individual-life-insurance-new-business](https://github.com/Acceler-Digital/karura-sample-artifacts-individual-life-insurance-new-business) — KARURA で生成した成果物サンプル(生命保険 新契約システム）
+- [KARURA 成果物サンプル - 生命保険 新契約システム](https://github.com/Acceler-Digital/karura-sample-artifacts-individual-life-insurance-new-business)
 
 ## ライセンス
 
