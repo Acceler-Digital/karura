@@ -7,13 +7,15 @@
  
 **ビジネス要求から保守運用まで、成果物を一貫生成する<br>エンタープライズ向けAI駆動開発総合ソリューション**
  
-[![License](https://img.shields.io/github/license/Acceler-Digital/karura)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/Acceler-Digital/karura?include_prereleases&label=release)](https://github.com/Acceler-Digital/karura/releases)
-[![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?logo=node.js&logoColor=white)](#前提条件)
-[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A59-F69220?logo=pnpm&logoColor=white)](#前提条件)
-[![Docusaurus](https://img.shields.io/badge/docs-Docusaurus%203-3ECC5F?logo=docusaurus)](https://docusaurus.io/)
- 
-[🗺 成果物フロー](docs/D0.project-management/artifact-flow.md) ・ [📚 ハンドブック](handbook/README.md) ・ [🌐 Acceler Digital](https://www.acceler-digital.com/)
+[![License](https://img.shields.io/github/license/Acceler-Digital/karura?style=flat-square)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/Acceler-Digital/karura?include_prereleases&label=release&style=flat-square)](https://github.com/Acceler-Digital/karura/releases)
+[![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](#前提条件)
+[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A59-F69220?style=flat-square&logo=pnpm&logoColor=white)](#前提条件)
+[![Docusaurus](https://img.shields.io/badge/docs-Docusaurus%203-3ECC5F?style=flat-square&logo=docusaurus)](https://docusaurus.io/)
+
+[![成果物フロー](https://img.shields.io/badge/🗺_成果物フロー-181717?style=for-the-badge)](docs/D0.project-management/artifact-flow.md)
+[![ハンドブック](https://img.shields.io/badge/📚_ハンドブック-181717?style=for-the-badge)](handbook/README.md)
+[![corporate](https://img.shields.io/badge/🌐_corporate-acceler--digital.com-181717?style=for-the-badge)](https://www.acceler-digital.com/)
 </div>
 
 ## KARURAとは
@@ -25,19 +27,18 @@ KARURAは、Acceler DigitalのAI駆動開発の知見を体系化した、エン
 
 | 収録要素 | 該当成果物 | 内容 |
 | --- | --- | --- |
-| **スキル定義** | [.claude/skills/](.claude/skills/) | Claude が各成果物を生成・更新するための振る舞いルール。スラッシュコマンドで呼び出し |
-| **成果物テンプレート** | [.claude/skills/](.claude/skills/) 配下各スキルの `template.md` | 成果物の骨組み(章構成・書き方ヒント)。AI が読み込んで記入するフォーマット |
-| **プロジェクト共通規約** | [CLAUDE.md](CLAUDE.md) | プレースホルダ・ID 表記・文体などの横断ルール。Claude が自動参照 |
-| **成果物フロー** | [docs/D0.project-management/artifact-flow.md](docs/D0.project-management/artifact-flow.md) | 全成果物の input / output 依存関係・生成順の定義 |
-| **要確認マーカー運用** | [scripts/check-markers.sh](scripts/check-markers.sh) | AI が自信のない記述に要確認マークを付け、それを集計する仕組み |
-| **セキュリティガードレール** | [scripts/security-scan.sh](scripts/security-scan.sh) ・ [.githooks/pre-commit](.githooks/pre-commit) | 生成完了時・コミット時の二段スキャンでシークレット混入を防止 |
-| **Docusaurus** | [docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts) | 成果物を Wiki サイトとしてプレビュー(Confluence / Notion を使う場合は不要) |
+| **スキル定義** | [.claude/skills/](.claude/skills/) | Claudeが各成果物を生成・更新するための振る舞いルール。スラッシュコマンドで呼び出し。 |
+| **成果物テンプレート** | [.claude/skills/](.claude/skills/) 配下の各スキルの `template.md` | 成果物の骨組み(章構成・書き方ヒント)。AIが読み込んで記入するフォーマット。 |
+| **プロジェクト共通規約** | [CLAUDE.md](CLAUDE.md) | プレースホルダ・ID 表記・文体などの横断ルール。Claudeが自動参照。 |
+| **成果物フロー** | [docs/D0.project-management/artifact-flow.md](docs/D0.project-management/artifact-flow.md) | 全成果物の input/outputの依存関係・生成順の定義 |
+| **周辺スクリプト群** | [scripts/](scripts/) | セキュリティガードレールや、AIの挙動を支援する各種スクリプト |
+| **Wiki(Docusaurus)** | [docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts)等 | プロジェクトで使用する成果物をWikiサイトとしてプレビュー(Confluence/Notion等を使う場合は不要) |
  
 ## 成果物フロー
 
-KARURA の中核となるのが成果物フローです。各成果物が何をインプットとし、何をアウトプットするのか、成果物同士の依存関係を定義したものです。
+KARURAにおいて、中核となる考え方が[成果物フロー](docs/D0.project-management/artifact-flow.drawio.svg)です。各成果物が何をインプットとし、何をアウトプットするのか、成果物同士の依存関係を定義したものであり、KARURAにおけるAIの挙動の根底になります。
 
-フェーズ単位の簡略版の全体像は以下の通りです。
+各成果物はD0~D11のフェーズに分かれており、フェーズ単位の簡略版の全体像は以下の通りです。
 
 ```mermaid
 flowchart LR
@@ -46,25 +47,25 @@ flowchart LR
  
     D1["D1 ビジネス要求"]:::included --> D2["D2 システム要件"]:::included
     D2 --> D3["D3 システム設計"]:::planned
-    D3 --> D4["D4 実装・UT・内部結合テスト"]:::planned
+    D3 --> D4["D4 実装・UT・内部結合テスト(ITa)"]:::planned
     D4 --> D5["D5 E2Eテスト(ITb)"]:::planned
     D5 --> D6["D6 システムテスト"]:::planned
     D6 --> D7["D7 リリース"]:::planned
     D2 --> D10["D10 システム運用要件"]:::planned
     D10 --> D11["D11 システム運用設計"]:::planned
-    D11 --> D7
-    D8["D8 テスト計画"]:::planned --> D9["D9 テスト設計"]:::planned
-    D9 -.-> D5 & D6
+    D11 --> D6
+    D2 -->D8["D8 テスト計画"]:::planned
+    D8 --> D4
+    D8 -->D9["D9 テスト設計"]:::planned
+    D9 --> D5 & D6
     D0["D0 プロジェクトマネジメント(全フェーズ横断)"]:::planned
 ```
- 
-🟩 = 本リポジトリにスキル収録済みのフェーズ
- 
-成果物の全量は [artifact-flow.drawio.svg](docs/D0.project-management/artifact-flow.drawio.svg) をご参照ください。
+
+🟩 = 本リポジトリに収録しているフェーズ
 
 ## ハンドブック
 
-KARURA 全体の考え方と、収録している各成果物の目的・作り込み/レビューの勘所は、リポジトリ直下の [handbook/](handbook/README.md) にまとめています。収録しているスキルの一覧もこちらで確認できます。
+KARURA全体の考え方と、収録している各成果物の目的・作り込み/レビューの勘所は、リポジトリ直下の [handbook/](handbook/README.md) にまとめています。収録しているスキルの一覧もこちらで確認できます。
 
 ## クイックスタート
 
@@ -172,7 +173,10 @@ KARURAを使用した成果物サンプルとして、以下リポジトリを�
 ## お問い合わせ
  
 - **バグ報告・改善提案** — [GitHub Issues](https://github.com/Acceler-Digital/karura/issues)
-- **完全版の提供・導入支援・伴走サポートのご相談** — [Acceler Digital](https://www.acceler-digital.com/) のお問い合わせ窓口まで
+- **完全版の提供・導入支援・伴走サポートのご相談** — Acceler Digitalのお問い合わせ窓口までお願いいたします。
+[![corporate](https://img.shields.io/badge/🌐_corporate-acceler--digital.com-181717?style=for-the-badge)](https://www.acceler-digital.com/)
+
+
 ## ライセンス
  
 本リポジトリに含まれるドキュメント・図・設定ファイル・スクリプトは [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) の下で提供されます。全文は同梱の [LICENSE](LICENSE) を参照してください。
