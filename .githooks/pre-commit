@@ -9,7 +9,7 @@
 #
 # 緊急時の回避: git commit --no-verify(誤検知が確実な場合のみ)
 
-if ! bash scripts/security-scan.sh --staged; then
+if ! bash plugin/scripts/security-scan.sh --staged; then
   echo ""
   echo "⛔ コミットを中止しました: high レベルのセキュリティ懸念が含まれています。"
   echo "   修正後に再度コミットしてください。"

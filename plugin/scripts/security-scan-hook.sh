@@ -10,10 +10,12 @@
 # 入力: Claude Code から stdin に JSON が渡るが、ここでは未使用。
 # 出力: 検出時のみ {"systemMessage": "..."} を stdout に出す(jq で組み立て)。
 
+# スキャン対象は利用側プロジェクトの未コミット変更なので、作業ディレクトリはプロジェクト直下に移す
 cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
 
+# スキャン本体はプラグイン同梱スクリプト(利用側 scripts/ には存在しないため PLUGIN_ROOT 基準で解決)
 # medium も含めて全件を拾いたいので、ブロック判定とは独立に全文を取得する
-REPORT="$(SECURITY_BLOCK_LEVEL=high bash scripts/security-scan.sh --changed 2>/dev/null)"
+REPORT="$(SECURITY_BLOCK_LEVEL=high bash "${CLAUDE_PLUGIN_ROOT}/scripts/security-scan.sh" --changed 2>/dev/null)"
 
 # 「検出なし」なら静かに終了
 case "$REPORT" in

@@ -31,6 +31,5 @@ Thumbs.db
 !.claude/skills/
 !.claude/skills/**
 !.claude/settings.json
-!.claude/security-denylist.txt
 # skills 配下の再包含で取り込まれる OS ジャンクは再度除外
 .claude/skills/**/.DS_Store
