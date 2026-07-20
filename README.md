@@ -27,11 +27,11 @@ KARURAは、Acceler DigitalのAI駆動開発の知見を体系化した、エン
 
 | 収録要素 | 該当成果物 | 内容 |
 | --- | --- | --- |
-| **スキル定義** | [.claude/skills/](.claude/skills/) | Claudeが各成果物を生成・更新するための振る舞いルール。スラッシュコマンドで呼び出し。 |
-| **成果物テンプレート** | [.claude/skills/](.claude/skills/) 配下の各スキルの `template.md` | 成果物の骨組み(章構成・書き方ヒント)。AIが読み込んで記入するフォーマット。 |
-| **プロジェクト共通規約** | [CLAUDE.md](CLAUDE.md) | プレースホルダ・ID 表記・文体などの横断ルール。Claudeが自動参照。 |
+| **スキル定義** | [plugin/skills/](plugin/skills/) | Claudeが各成果物を生成・更新するための振る舞いルール。プラグイン導入後 `/karura:<スキル名>` で呼び出し。 |
+| **成果物テンプレート** | [plugin/skills/](plugin/skills/) 配下の各スキルの `template.md` | 成果物の骨組み(章構成・書き方ヒント)。AIが読み込んで記入するフォーマット。 |
+| **プロジェクト共通規約** | [plugin/skills/karura-conventions/](plugin/skills/karura-conventions/) | プレースホルダ・ID 表記・文体などの横断規約。各スキルが生成・更新前に必ず参照。 |
 | **成果物フロー** | [docs/D0.project-management/artifact-flow.md](docs/D0.project-management/artifact-flow.md) | 全成果物の input/outputの依存関係・生成順の定義 |
-| **周辺スクリプト群** | [scripts/](scripts/) | セキュリティガードレールや、AIの挙動を支援する各種スクリプト |
+| **周辺スクリプト群** | [plugin/scripts/](plugin/scripts/) ・ [scripts/](scripts/) | セキュリティガードレール(plugin/scripts/、プラグイン同梱)や、マーカー集計等の補助スクリプト(scripts/) |
 | **Wiki(Docusaurus)** | [docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts)等 | プロジェクトで使用する成果物をWikiサイトとしてプレビュー(Confluence/Notion等を使う場合は不要) |
  
 ## 成果物フロー
@@ -84,26 +84,28 @@ KARURA の利用に必要なツールは以下の通りです。用途に応じ�
 > [!NOTE]
 > **対応 OS は macOS / Linux です。** セキュリティスキャンは bash スクリプトで実装しているため、**Windows は WSL または Git Bash 経由**で利用してください。コマンドプロンプト・PowerShell 単体ではフックが起動しません(スキャンは警告目的の advisory 設計のため成果物生成そのものは止まりませんが、コミット前チェックが効かなくなるため WSL / Git Bash を推奨します)。
 
-### 1. セットアップ
+### 1. KARURA プラグインの導入
  
-```bash
-git clone https://github.com/Acceler-Digital/karura.git
-cd karura
-pnpm install                          # Docusaurus を使う場合
-git config core.hooksPath .githooks   # pre-commit セキュリティスキャン有効化(pnpm install 時に自動実行)
+自分のプロジェクトで Claude Code を起動し、マーケットプレイスを追加してプラグインをインストールします。リポジトリの clone は不要です。
+
 ```
+/plugin marketplace add Acceler-Digital/karura
+/plugin install karura@acceler-digital
+```
+
+導入後、各成果物のスキルが `/karura:<スキル名>` で呼び出せるようになり、生成完了時のセキュリティスキャン(Stop フック)もプラグイン同梱で有効になります。Wiki プレビュー(Docusaurus)やコミット時の pre-commit スキャンなど、リポジトリ本体の機能を使いたい場合のみ別途 clone してください(→ [Wiki プレビュー](#wiki-プレビューdocusaurus))。
  
 ### 2. 最初の成果物を生成する
  
-プロジェクト立ち上げの起点はビジネス要件定義書です。リポジトリ内で Claude Code を起動し、スラッシュコマンドを実行します。
+プロジェクト立ち上げの起点はビジネス要件定義書です。プラグインを導入したプロジェクトで Claude Code を起動し、スラッシュコマンドを実行します。
  
 ```
-/d1-business-requirement-document
+/karura:d1-business-requirement-document
 ```
  
-以降は[成果物フロー](docs/D0.project-management/artifact-flow.md)に沿って、各成果物のスラッシュコマンド(`/d1-actor-list`、`/d2-function-list` など)を順に実行していきます。上流の成果物を入力として下流の成果物が生成されるため、生成順はフローに従ってください。
+以降は[成果物フロー](docs/D0.project-management/artifact-flow.md)に沿って、各成果物のスラッシュコマンド(`/karura:d1-actor-list`、`/karura:d2-function-list` など)を順に実行していきます。上流の成果物を入力として下流の成果物が生成されるため、生成順はフローに従ってください。
  
-生成された成果物は、別リポジトリ(下記サンプル等)の `docs/` 配下に配置していく運用を想定しています。本リポジトリの `docs/` には、フェーズのプレースホルダとなる空ディレクトリと、成果物フロー等のメタ情報のみを置いています。
+生成された成果物は、KARURA プラグインを導入した **あなたのプロジェクトの `docs/` 配下** に配置していく運用を想定しています。本リポジトリ(karura)自体の `docs/` には、フェーズのプレースホルダとなる空ディレクトリと、成果物フロー等のメタ情報のみを置いています(生成物の実例は [成果物サンプル](#成果物サンプル) を参照)。
 
 ## 本リポジトリに含まれないもの
 
@@ -154,24 +156,32 @@ pnpm build:offline  # オフライン閲覧用ビルド(hash router・検索イ�
  
 ```
 .
-├── .claude/
+├── plugin/                        # KARURA プラグイン本体(/plugin install で配布)
+│   ├── .claude-plugin/
+│   │   └── plugin.json            # プラグインマニフェスト
 │   ├── skills/                    # Claude スキル定義(フェーズ別、テンプレート同梱)
 │   │   ├── d1-business-requirement-document/
 │   │   │   ├── SKILL.md           # スキル本体(振る舞いルール)
 │   │   │   └── template.md        # 成果物テンプレート(章構成・書き方ヒント入り)
+│   │   ├── karura-conventions/    # 横断規約スキル(各スキルが生成前に参照)
 │   │   └── ...                    # d1-* / d2-* 各スキル
-│   └── settings.json              # Claude Code 設定(allowlist・Stop フック 等)
+│   ├── hooks/
+│   │   └── hooks.json             # 生成完了時セキュリティスキャン(Stop フック)
+│   └── scripts/
+│       └── security-scan.sh       # セキュリティスキャン本体
+├── .claude-plugin/
+│   └── marketplace.json           # マーケットプレイスマニフェスト(モノレポ配信)
+├── .claude/
+│   └── settings.json              # Claude Code 設定(allowlist 等)
 ├── docs/                          # メタ情報・フェーズ用プレースホルダ
 │   └── D0.project-management/     # 成果物フロー・プロジェクトインデックス
 ├── handbook/                      # KARURA の設計思想・方法論の解説(Docusaurus 非依存)
-├── scripts/                       # 補助スクリプト
-│   ├── check-markers.sh           # 未確定マーカー集計
-│   └── security-scan.sh           # セキュリティスキャン本体
+├── scripts/                       # 補助スクリプト(check-markers.sh・deploy-s3.sh 等)
 ├── .githooks/
-│   └── pre-commit                 # コミット時セキュリティスキャン
+│   └── pre-commit                 # コミット時セキュリティスキャン(plugin/scripts を呼ぶ)
 ├── sidebars.ts                    # Docusaurus サイドバー定義
 ├── docusaurus.config.ts           # Docusaurus 設定
-├── CLAUDE.md                      # プロジェクト共通の慣習(Claude が自動参照)
+├── CLAUDE.md                      # プロジェクト共通の慣習
 ├── SECURITY.md                    # セキュリティスキャンの説明
 └── package.json
 ```
