@@ -126,7 +126,7 @@ AI は自身で生成した内容に自信がない場合、要確認マーカ�
 pnpm check:markers
 ```
  
-実体は [scripts/check-markers.sh](scripts/check-markers.sh) です。マーカー記法は [CLAUDE.md](CLAUDE.md) §1〜§3 を参照してください。
+実体は [scripts/check-markers.sh](scripts/check-markers.sh) です。マーカー記法は [karura-conventions スキル](plugin/skills/karura-conventions/SKILL.md) §1〜§3 を参照してください。
  
 ### セキュリティ・スキャン
  
@@ -181,7 +181,6 @@ pnpm build:offline  # オフライン閲覧用ビルド(hash router・検索イ�
 │   └── pre-commit                 # コミット時セキュリティスキャン(plugin/scripts を呼ぶ)
 ├── sidebars.ts                    # Docusaurus サイドバー定義
 ├── docusaurus.config.ts           # Docusaurus 設定
-├── CLAUDE.md                      # プロジェクト共通の慣習
 ├── SECURITY.md                    # セキュリティスキャンの説明
 └── package.json
 ```
