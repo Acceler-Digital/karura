@@ -1,0 +1,14 @@
+{
+  "name": "acceler-digital",
+  "owner": {
+    "name": "Acceler Digital"
+  },
+  "description": "Acceler Digitalが提供するClaude Codeプラグインのマーケットプレイス",
+  "plugins": [
+    {
+      "name": "karura",
+      "source": "./plugin",
+      "category": "development"
+    }
+  ]
+}

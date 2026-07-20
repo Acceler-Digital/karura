@@ -1,0 +1,17 @@
+{
+  "name": "karura",
+  "version": "0.1.0",
+  "description": "エンタープライズ向けAI駆動開発ソリューション。ビジネス要求から保守運用までの成果物をSKILL・テンプレート・セキュリティガードレールを用いて一貫生成する。",
+  "author": {
+    "name": "Acceler Digital"
+  },
+  "homepage": "https://github.com/Acceler-Digital/karura",
+  "repository": "https://github.com/Acceler-Digital/karura",
+  "license": "Apache-2.0",
+  "keywords": [
+    "spec-driven",
+    "spec-driven-development",
+    "aidd",
+    "ai-development"
+  ]
+}

@@ -9,8 +9,8 @@
  
 [![License](https://img.shields.io/github/license/Acceler-Digital/karura?style=flat-square)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/Acceler-Digital/karura?include_prereleases&label=release&style=flat-square)](https://github.com/Acceler-Digital/karura/releases)
-[![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](#前提条件)
-[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A59-F69220?style=flat-square&logo=pnpm&logoColor=white)](#前提条件)
+[![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](#環境準備)
+[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A59-F69220?style=flat-square&logo=pnpm&logoColor=white)](#環境準備)
 [![Docusaurus](https://img.shields.io/badge/docs-Docusaurus%203-3ECC5F?style=flat-square&logo=docusaurus)](https://docusaurus.io/)
 
 [![成果物フロー](https://img.shields.io/badge/🗺_成果物フロー-181717?style=for-the-badge)](docs/D0.project-management/artifact-flow.md)
@@ -69,10 +69,21 @@ KARURA全体の考え方と、収録している各成果物の目的・作り�
 
 ## クイックスタート
 
-### 前提条件
- 
-- [Claude Code](https://code.claude.com/)(成果物の生成・更新に使用)
-- Node.js 18 以上・pnpm 9 以上(Docusaurus での Wiki プレビューに使用)
+### 環境準備
+
+KARURA の利用に必要なツールは以下の通りです。用途に応じて導入してください(インストールが必要なものはすべてこの欄に集約しています)。
+
+| ツール | 用途 | 備考 |
+| --- | --- | --- |
+| [Claude Code](https://code.claude.com/) | 成果物の生成・更新(必須) | — |
+| `git` | バージョン管理・セキュリティスキャンの差分検出(必須) | 通常はプリインストール済み |
+| `bash` | セキュリティスキャン(Stop フック・pre-commit)の実行 | macOS / Linux は標準搭載。**Windows は WSL または Git Bash が必要** |
+| `jq` | セキュリティスキャンの結果整形 | macOS・多くの Linux でも**標準では未導入**のため別途インストール(例: macOS `brew install jq`、Debian/Ubuntu `apt install jq`) |
+| Node.js 18 以上・pnpm 9 以上 | Docusaurus での Wiki プレビュー(任意) | Confluence / Notion 等で閲覧する場合は不要 |
+
+> [!NOTE]
+> **対応 OS は macOS / Linux です。** セキュリティスキャンは bash スクリプトで実装しているため、**Windows は WSL または Git Bash 経由**で利用してください。コマンドプロンプト・PowerShell 単体ではフックが起動しません(スキャンは警告目的の advisory 設計のため成果物生成そのものは止まりませんが、コミット前チェックが効かなくなるため WSL / Git Bash を推奨します)。
+
 ### 1. セットアップ
  
 ```bash
@@ -117,7 +128,7 @@ pnpm check:markers
  
 ### セキュリティ・スキャン
  
-本リポジトリ(および KARURA で運用するリポジトリ)は、公開リポジトリにシークレットや機微情報が混入しないよう、二段でスキャンを行います。外部ツールのインストールは不要です(`grep` / `jq` のみ)。
+本リポジトリ(および KARURA で運用するリポジトリ)は、公開リポジトリにシークレットや機微情報が混入しないよう、二段でスキャンを行います。スキャンには `bash` / `git` / `jq` を使用します(導入方法は[環境準備](#環境準備)を参照)。
  
 1. **生成完了時(Claude Code の Stop フック)** — Claude が応答を終えると未コミットの変更を自動スキャンし、検出があれば警告します(停止はブロックしない、気付き目的)
 2. **コミット時(git pre-commit / 最終防衛線)** — ステージ済みファイルをスキャンし、**high を検出するとコミットを中止**します
@@ -126,7 +137,7 @@ pnpm check:markers
 pnpm check:security
 ```
  
-検出対象・重大度・誤検知除外の詳細は [SECURITY.md](SECURITY.md) を参照してください。実体は [scripts/security-scan.sh](scripts/security-scan.sh) ・ [.githooks/pre-commit](.githooks/pre-commit) です。
+検出対象・重大度・誤検知除外の詳細は [SECURITY.md](SECURITY.md) を参照してください。実体は [plugin/scripts/security-scan.sh](plugin/scripts/security-scan.sh) ・ [.githooks/pre-commit](.githooks/pre-commit) です。
  
 ### Wiki プレビュー(Docusaurus)
  

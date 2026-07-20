@@ -8,8 +8,7 @@
 | 系統 | 例 | 既定の重大度 |
 |---|---|---|
 | シークレット/認証情報 | 秘密鍵・AWS/Google/Slack/GitHub のキーやトークン・URL 埋め込み資格情報・`password=...` 等の代入 | high |
-| 機微情報/固有名詞 | 長い数字列(マイナンバー/カード番号)・電話番号・実在メール | medium |
-| 固有名詞(デナイリスト) | `.claude/security-denylist.txt` に列挙した語 | high |
+| 機微情報 | 長い数字列(マイナンバー/カード番号)・電話番号・実在メール | medium |
 | コード脆弱性(軽量) | `eval`/`exec`・危険な HTML 注入 等(コードファイルのみ) | medium |
 
 `{{プレースホルダ}}` や `example.com` 等のダミーは誤検知として自動除外します。
@@ -18,9 +17,11 @@
 
 1. **生成完了時(Claude Code の Stop フック)** — Claude が応答を終えると未コミットの変更を自動スキャンし、
    検出があれば警告を表示します。**停止はブロックしません(気付き目的)。**
-   設定: [.claude/settings.json](.claude/settings.json) → [scripts/security-scan-hook.sh](scripts/security-scan-hook.sh)
+   設定: [plugin/hooks/hooks.json](plugin/hooks/hooks.json) → [plugin/scripts/security-scan-hook.sh](plugin/scripts/security-scan-hook.sh)。
+   本フックは **karura プラグインを読み込んでいるとき**(導入済み、または `claude --plugin-dir ./plugin`)に有効です。
 2. **コミット時(git pre-commit / 最終防衛線)** — ステージ済みファイルをスキャンし、**high を検出するとコミットを中止**します。
-   設定: [.githooks/pre-commit](.githooks/pre-commit)
+   プラグイン導入の有無にかかわらず、このリポジトリ単体で常時有効です。
+   設定: [.githooks/pre-commit](.githooks/pre-commit) → [plugin/scripts/security-scan.sh](plugin/scripts/security-scan.sh)
 
 ## セットアップ(クローン後に一度だけ)
 
@@ -34,14 +35,12 @@ git config core.hooksPath .githooks
 
 ```bash
 npm run check:security          # HEAD との差分 + 未追跡ファイルを検査
-bash scripts/security-scan.sh --staged        # ステージ済みファイル
-bash scripts/security-scan.sh path/to/file.md # 指定ファイル
+bash plugin/scripts/security-scan.sh --staged        # ステージ済みファイル
+bash plugin/scripts/security-scan.sh path/to/file.md # 指定ファイル
 ```
 
 ## 運用メモ
 
-- **固有名詞の管理**: 実在の顧客名・社内システム名など公開してはならない語は
-  [.claude/security-denylist.txt](.claude/security-denylist.txt) に追記します(1 行 1 語)。
 - **誤検知でコミットできない場合**: 確実に誤検知のときのみ `git commit --no-verify` で回避できます。
 - **ブロック閾値の変更**: `SECURITY_BLOCK_LEVEL=medium` を付けると medium もブロック対象になります。
 - **深いコード脆弱性レビュー**: 軽量パターンを超える解析が必要なときは Claude Code の `/security-review` を利用してください。
