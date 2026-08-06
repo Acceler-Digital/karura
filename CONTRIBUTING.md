@@ -2,13 +2,13 @@
 
 KARURA へのご貢献に関心をお持ちいただき、ありがとうございます。
 
-> **English**: All pull requests require agreement to the [CLA](CLA.md). The CLA
+> **English**: All pull requests require agreement to the [CLA](https://gist.github.com/m-nagashio/9834e3ee63ca5554a291f4b48dfa8eae). The CLA
 > Assistant bot will ask you to sign on your first pull request. You keep the
 > copyright in your contribution.
 
 ## CLA への同意（必須）
 
-**すべてのプルリクエストは、[CLA](CLA.md) への同意が前提です。**
+**すべてのプルリクエストは、[CLA](https://gist.github.com/m-nagashio/9834e3ee63ca5554a291f4b48dfa8eae) への同意が前提です。**
 
 - 初回のプルリクエスト時に、CLA Assistant が自動で同意を求めます
 - 画面の指示に従って署名すると記録され、以降は求められません
