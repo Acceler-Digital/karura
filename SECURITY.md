@@ -1,46 +1,61 @@
-# セキュリティ・スキャン(OSS 公開向け)
+# セキュリティポリシー
 
-本リポジトリは Claude Code で成果物を生成します。公開リポジトリにシークレットや機微情報が
-混入しないよう、**生成完了時**と**コミット時**の二段でスキャンを行います。外部ツールのインストールは不要です(`grep`/`jq` のみ)。
+KARURA の脆弱性を発見された場合は、以下の手順でご報告ください。ご協力に感謝します。
 
-## 検出対象
+> **English**: Please report vulnerabilities privately via GitHub's [Private vulnerability reporting](https://github.com/Acceler-Digital/karura/security/advisories/new). Do **not** open a public issue.
 
-| 系統 | 例 | 既定の重大度 |
-|---|---|---|
-| シークレット/認証情報 | 秘密鍵・AWS/Google/Slack/GitHub のキーやトークン・URL 埋め込み資格情報・`password=...` 等の代入 | high |
-| 機微情報 | 長い数字列(マイナンバー/カード番号)・電話番号・実在メール | medium |
-| コード脆弱性(軽量) | `eval`/`exec`・危険な HTML 注入 等(コードファイルのみ) | medium |
+## 報告方法
 
-`{{プレースホルダ}}` や `example.com` 等のダミーは誤検知として自動除外します。
+**公開 Issue・プルリクエスト・SNS 等での報告はご遠慮ください。** 修正前に脆弱性が公開されると、利用者が危険にさらされます。
 
-## 二段の防御
+GitHub の **Private vulnerability reporting** をご利用ください。
 
-1. **生成完了時(Claude Code の Stop フック)** — Claude が応答を終えると未コミットの変更を自動スキャンし、
-   検出があれば警告を表示します。**停止はブロックしません(気付き目的)。**
-   設定: [plugin/hooks/hooks.json](plugin/hooks/hooks.json) → [plugin/scripts/security-scan-hook.sh](plugin/scripts/security-scan-hook.sh)。
-   本フックは **karura プラグインを読み込んでいるとき**(導入済み、または `claude --plugin-dir ./plugin`)に有効です。
-2. **コミット時(git pre-commit / 最終防衛線)** — ステージ済みファイルをスキャンし、**high を検出するとコミットを中止**します。
-   プラグイン導入の有無にかかわらず、このリポジトリ単体で常時有効です。
-   設定: [.githooks/pre-commit](.githooks/pre-commit) → [plugin/scripts/security-scan.sh](plugin/scripts/security-scan.sh)
+👉 **[脆弱性を報告する](https://github.com/Acceler-Digital/karura/security/advisories/new)**
 
-## セットアップ(クローン後に一度だけ)
+リポジトリの **Security** タブ →「**Report a vulnerability**」からも同じフォームを開けます。報告内容はメンテナーのみが閲覧でき、公開されません。
 
-pre-commit フックを有効化するため、リポジトリ直下で次を実行します(`npm install` 時に `prepare` で自動実行されます):
+## 報告に含めていただきたい情報
 
-```bash
-git config core.hooksPath .githooks
-```
+- 脆弱性の概要と想定される影響
+- 該当箇所(ファイルパス・行番号・スキル名・スクリプト名など)
+- 再現手順(該当する場合は、再現に使ったコマンドや入力)
+- 実行環境(OS・Claude Code のバージョン・シェル など)
+- 差し支えなければ、想定される修正案
 
-## 手動実行
+**再現手順に実在のシークレットや個人情報を含めないでください。** ダミー値(`{{プレースホルダ}}`・`example.com` 等)に置き換えてご報告ください。
 
-```bash
-npm run check:security          # HEAD との差分 + 未追跡ファイルを検査
-bash plugin/scripts/security-scan.sh --staged        # ステージ済みファイル
-bash plugin/scripts/security-scan.sh path/to/file.md # 指定ファイル
-```
+## 対応の流れ
 
-## 運用メモ
+1. **受領連絡** — 5 営業日以内に受領のご連絡をします
+2. **調査・影響範囲の確認** — 再現性と影響範囲を確認し、重大度を判断します
+3. **修正** — 重大度に応じて修正版をリリースします
+4. **公開** — 修正のリリース後、GitHub Security Advisory として公開します
 
-- **誤検知でコミットできない場合**: 確実に誤検知のときのみ `git commit --no-verify` で回避できます。
-- **ブロック閾値の変更**: `SECURITY_BLOCK_LEVEL=medium` を付けると medium もブロック対象になります。
-- **深いコード脆弱性レビュー**: 軽量パターンを超える解析が必要なときは Claude Code の `/security-review` を利用してください。
+進捗は、報告いただいたアドバイザリのスレッド上でご連絡します。
+
+## 対象範囲
+
+**対象** — 本リポジトリに含まれるもの
+
+- スキル定義・テンプレート([plugin/skills/](plugin/skills/))
+- セキュリティスキャン等のスクリプト([plugin/scripts/](plugin/scripts/) ・ [scripts/](scripts/) ・ [.githooks/](.githooks/))
+- プラグイン設定・フック定義([plugin/hooks/](plugin/hooks/) ・ [.claude-plugin/](.claude-plugin/))
+- Docusaurus 設定([docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts))
+
+**対象外**
+
+- **Claude Code / Anthropic 製品そのものの脆弱性** — [Anthropic のセキュリティ窓口](https://www.anthropic.com/responsible-disclosure-policy)へご報告ください
+- **KARURA で生成した成果物の内容** — 生成物の妥当性は利用者側でのレビューを前提としています(生成結果の誤りや不足は [Issue](https://github.com/Acceler-Digital/karura/issues) へどうぞ)
+- **依存パッケージの既知脆弱性** — 原則として上流へご報告ください(本リポジトリ側の対応が必要な場合はお知らせください)
+
+## 対象バージョン
+
+本リポジトリは常に最新版のみをサポートします。修正は `main` に対して行い、必要に応じて新しいリリースを作成します。過去バージョンへのバックポートは行いません。
+
+## 謝辞
+
+ご希望があれば、修正後に公開する Security Advisory に報告者としてお名前を記載します。報告時にその旨をお知らせください。
+
+---
+
+なお、本リポジトリに同梱している**シークレット混入防止のセキュリティスキャン**(生成完了時の Stop フック / コミット時の pre-commit)については、[README.md の「セキュリティ・スキャン」](README.md#セキュリティスキャン)を参照してください。
