@@ -130,16 +130,50 @@ pnpm check:markers
  
 ### セキュリティ・スキャン
  
-本リポジトリ(および KARURA で運用するリポジトリ)は、公開リポジトリにシークレットや機微情報が混入しないよう、二段でスキャンを行います。スキャンには `bash` / `git` / `jq` を使用します(導入方法は[環境準備](#環境準備)を参照)。
+本リポジトリ(および KARURA で運用するリポジトリ)は Claude Code で成果物を生成します。公開リポジトリにシークレットや機微情報が混入しないよう、**生成完了時**と**コミット時**の二段でスキャンを行います。スキャンには `bash` / `git` / `jq` のみを使用し、外部ツールの追加インストールは不要です(導入方法は[環境準備](#環境準備)を参照)。
  
-1. **生成完了時(Claude Code の Stop フック)** — Claude が応答を終えると未コミットの変更を自動スキャンし、検出があれば警告します(停止はブロックしない、気付き目的)
-2. **コミット時(git pre-commit / 最終防衛線)** — ステージ済みファイルをスキャンし、**high を検出するとコミットを中止**します
+#### 検出対象
+ 
+| 系統 | 例 | 既定の重大度 |
+|---|---|---|
+| シークレット/認証情報 | 秘密鍵・AWS/Google/Slack/GitHub のキーやトークン・URL 埋め込み資格情報・パスワードの代入 等 | high |
+| 機微情報 | 長い数字列(マイナンバー/カード番号)・電話番号・実在メール | medium |
+| コード脆弱性(軽量) | `eval`/`exec`・危険な HTML 注入 等(コードファイルのみ) | medium |
+ 
+`{{プレースホルダ}}` や `example.com` 等のダミーは誤検知として自動除外します。
+ 
+#### 二段の防御
+ 
+1. **生成完了時(Claude Code の Stop フック)** — Claude が応答を終えると未コミットの変更を自動スキャンし、検出があれば警告を表示します。**停止はブロックしません(気付き目的)。**
+   設定: [plugin/hooks/hooks.json](plugin/hooks/hooks.json) → [plugin/scripts/security-scan-hook.sh](plugin/scripts/security-scan-hook.sh)。
+   本フックは **karura プラグインを読み込んでいるとき**(導入済み、または `claude --plugin-dir ./plugin`)に有効です。
+2. **コミット時(git pre-commit / 最終防衛線)** — ステージ済みファイルをスキャンし、**high を検出するとコミットを中止**します。
+   プラグイン導入の有無にかかわらず、このリポジトリ単体で常時有効です。
+   設定: [.githooks/pre-commit](.githooks/pre-commit) → [plugin/scripts/security-scan.sh](plugin/scripts/security-scan.sh)
+ 
+#### セットアップ(クローン後に一度だけ)
+ 
+pre-commit フックを有効化するため、リポジトリ直下で次を実行します(`pnpm install` 時に `prepare` で自動実行されます)。
+ 
 ```bash
-# 手動スキャン
-pnpm check:security
+git config core.hooksPath .githooks
 ```
  
-検出対象・重大度・誤検知除外の詳細は [SECURITY.md](SECURITY.md) を参照してください。実体は [plugin/scripts/security-scan.sh](plugin/scripts/security-scan.sh) ・ [.githooks/pre-commit](.githooks/pre-commit) です。
+#### 手動実行
+ 
+```bash
+pnpm check:security                                  # HEAD との差分 + 未追跡ファイルを検査
+bash plugin/scripts/security-scan.sh --staged        # ステージ済みファイル
+bash plugin/scripts/security-scan.sh path/to/file.md # 指定ファイル
+```
+ 
+#### 運用メモ
+ 
+- **誤検知でコミットできない場合**: 確実に誤検知のときのみ `git commit --no-verify` で回避できます。
+- **ブロック閾値の変更**: `SECURITY_BLOCK_LEVEL=medium` を付けると medium もブロック対象になります。
+- **深いコード脆弱性レビュー**: 軽量パターンを超える解析が必要なときは Claude Code の `/security-review` を利用してください。
+ 
+なお、KARURA 自体に脆弱性を発見された場合の報告手順は [SECURITY.md](SECURITY.md) を参照してください。
  
 ### Wiki プレビュー(Docusaurus)
  
@@ -181,7 +215,7 @@ pnpm build:offline  # オフライン閲覧用ビルド(hash router・検索イ�
 │   └── pre-commit                 # コミット時セキュリティスキャン(plugin/scripts を呼ぶ)
 ├── sidebars.ts                    # Docusaurus サイドバー定義
 ├── docusaurus.config.ts           # Docusaurus 設定
-├── SECURITY.md                    # セキュリティスキャンの説明
+├── SECURITY.md                    # 脆弱性の報告手順(セキュリティポリシー)
 └── package.json
 ```
 

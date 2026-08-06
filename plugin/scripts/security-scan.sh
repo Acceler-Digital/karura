@@ -46,7 +46,6 @@ is_excluded() {
     .githooks/*) return 0 ;;
     *.drawio.svg) return 0 ;;                            # ユーザーが手動管理(base64 で誤検知も多い)
     package-lock.json|pnpm-lock.yaml|yarn.lock) return 0 ;;
-    SECURITY.md) return 0 ;;                             # 本仕組みの説明(パターン例を含む)
     *) return 1 ;;
   esac
 }
