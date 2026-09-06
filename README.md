@@ -22,9 +22,12 @@
 
 KARURAは、Acceler DigitalのAI駆動開発の知見を体系化した、エンタープライズ向けAI駆動開発総合ソリューションです。大規模、且つ、ミッションクリティカルなシステム開発を対象に、生成AI(Claude Code等)を使ってビジネス要求からリリース・保守運用までの成果物を一貫した体系として生成するための仕組み一式を提供します。
 
+成果物体系は金融機関を中心とした現場での実践における知見を中核としつつ、ISO/IEC/IEEE 12207をはじめとする国際規格や、ISTQBやPMBOK等業界標準ガイドを掛け合わせて構築されています。
+
 > [!TIP]
 > **まず実物を見たい方へ** - KARURAで実際に生成した成果物一式は[成果物サンプル(生命保険 新契約システム)](https://github.com/Acceler-Digital/karura-sample-artifacts-individual-life-insurance-new-business)で公開しています。
 
+### KARURAの収録要素
 | 収録要素 | 該当成果物 | 内容 |
 | --- | --- | --- |
 | **スキル定義** | [plugin/skills/](plugin/skills/) | Claudeが各成果物を生成・更新するための振る舞いルール。プラグイン導入後 `/karura:<スキル名>` で呼び出し。 |
