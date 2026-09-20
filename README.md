@@ -1,10 +1,6 @@
 <div align="center">
-<!-- TODO: ロゴができたら差し替え(static/img/ に配置)
-<img src="static/img/karura-logo.png" alt="KARURA" width="200" />
--->
+<img src="static/img/karura-logo.png" alt="KARURA" width="700" />
 
-# KARURA
- 
 **ビジネス要求から保守運用まで、成果物を一貫生成する<br>エンタープライズ向けAI駆動開発総合ソリューション**
  
 [![License](https://img.shields.io/github/license/Acceler-Digital/karura?style=flat-square)](LICENSE)
