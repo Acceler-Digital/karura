@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/github/license/Acceler-Digital/karura?style=flat-square)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/Acceler-Digital/karura?include_prereleases&label=release&style=flat-square)](https://github.com/Acceler-Digital/karura/releases)
 [![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](#環境準備)
-[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A59-F69220?style=flat-square&logo=pnpm&logoColor=white)](#環境準備)
+[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A512-F69220?style=flat-square&logo=pnpm&logoColor=white)](#環境準備)
 [![Docusaurus](https://img.shields.io/badge/docs-Docusaurus%203-3ECC5F?style=flat-square&logo=docusaurus)](https://docusaurus.io/)
 
 [![成果物フロー](https://img.shields.io/badge/🗺_成果物フロー-181717?style=for-the-badge)](docs/D0.project-management/artifact-flow.md)
@@ -82,7 +82,7 @@ KARURA の利用に必要なツールは以下の通りです。用途に応じ�
 | `git` | バージョン管理・セキュリティスキャンの差分検出(必須) | 通常はプリインストール済み |
 | `bash` | セキュリティスキャン(Stop フック・pre-commit)の実行 | macOS / Linux は標準搭載。**Windows は WSL または Git Bash が必要** |
 | `jq` | セキュリティスキャンの結果整形 | macOS・多くの Linux でも**標準では未導入**のため別途インストール(例: macOS `brew install jq`、Debian/Ubuntu `apt install jq`) |
-| Node.js 18 以上・pnpm 9 以上 | Docusaurus での Wiki プレビュー(任意) | Confluence / Notion 等で閲覧する場合は不要 |
+| Node.js 18 以上・pnpm 12 以上 | Docusaurus での Wiki プレビュー(任意) | Confluence / Notion 等で閲覧する場合は不要。`package.json` の `packageManager` で pnpm 12.5.1 を指定しているため、Corepack 有効時は自動で切り替わる |
 
 > [!NOTE]
 > **対応 OS は macOS / Linux です。** セキュリティスキャンは bash スクリプトで実装しているため、**Windows は WSL または Git Bash 経由**で利用してください。コマンドプロンプト・PowerShell 単体ではフックが起動しません(スキャンは警告目的の advisory 設計のため成果物生成そのものは止まりませんが、コミット前チェックが効かなくなるため WSL / Git Bash を推奨します)。
