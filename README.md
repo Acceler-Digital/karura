@@ -1,7 +1,7 @@
 <div align="center">
 <img src="static/img/karura-logo.png" alt="KARURA" width="700" />
 
-**ビジネス要求から保守運用まで、成果物を一貫生成する<br>エンタープライズ向けAI駆動開発総合ソリューション**
+**ビジネス要求から保守運用まで、成果物を一貫生成する<br>エンタープライズ向けAI駆動開発総合フレームワーク**
  
 [![License](https://img.shields.io/github/license/Acceler-Digital/karura?style=flat-square)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/Acceler-Digital/karura?include_prereleases&label=release&style=flat-square)](https://github.com/Acceler-Digital/karura/releases)
@@ -16,7 +16,7 @@
 
 ## KARURAとは
 
-KARURAは、Acceler DigitalのAI駆動開発の知見を体系化した、エンタープライズ向けAI駆動開発総合ソリューションです。大規模、且つ、ミッションクリティカルなシステム開発を対象に、生成AI(Claude Code等)を使ってビジネス要求からリリース・保守運用までの成果物を一貫した体系として生成するための仕組み一式を提供します。
+KARURAは、Acceler DigitalのAI駆動開発の知見を体系化した、エンタープライズ向けAI駆動開発総合フレームワークです。大規模、且つ、ミッションクリティカルなシステム開発を対象に、生成AI(Claude Code等)を使ってビジネス要求からリリース・保守運用までの成果物を一貫した体系として生成するための仕組み一式を提供します。
 
 成果物体系は金融機関を中心とした現場での実践における知見を中核としつつ、ISO/IEC/IEEE 12207をはじめとする国際規格や、ISTQBやPMBOK等業界標準ガイドを掛け合わせて構築されています。
 
