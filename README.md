@@ -28,7 +28,7 @@ KARURAは、Acceler DigitalのAI駆動開発の知見を体系化した、エン
 | --- | --- | --- |
 | **スキル定義** | [.claude/skills/](.claude/skills/) | Claudeが各成果物を生成・更新するための振る舞いルール。スラッシュコマンド `/<スキル名>` で呼び出し。 |
 | **成果物テンプレート** | [.claude/skills/](.claude/skills/) 配下の各スキルの `template.md` | 成果物の骨組み(章構成・書き方ヒント)。AIが読み込んで記入するフォーマット。 |
-| **プロジェクト共通規約** | [.claude/skills/karura-conventions/](.claude/skills/karura-conventions/) | プレースホルダ・ID 表記・文体などの横断規約。各スキルが生成・更新前に必ず参照。 |
+| **プロジェクト共通規約** | [CLAUDE.md](CLAUDE.md) | プレースホルダ・ID 表記・文体などの横断規約。Claude Code が常に読み込み、各スキルの生成・更新時に適用。 |
 | **成果物フロー** | [docs/D0.project-management/artifact-flow.md](docs/D0.project-management/artifact-flow.md) | 全成果物の input/outputの依存関係・生成順の定義 |
 | **周辺スクリプト群** | [scripts/](scripts/) | セキュリティガードレールや、マーカー集計等の補助スクリプト |
 | **Wiki(Docusaurus)** | [docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts)等 | プロジェクトで使用する成果物をWikiサイトとしてプレビュー(Confluence/Notion等を使う場合は不要) |
@@ -120,7 +120,7 @@ AI は自身で生成した内容に自信がない場合、要確認マーカ�
 pnpm check:markers
 ```
  
-実体は [scripts/check-markers.sh](scripts/check-markers.sh) です。マーカー記法は [karura-conventions スキル](.claude/skills/karura-conventions/SKILL.md) §1〜§3 を参照してください。
+実体は [scripts/check-markers.sh](scripts/check-markers.sh) です。マーカー記法は [CLAUDE.md](CLAUDE.md) §1〜§3 を参照してください。
  
 ### Wiki プレビュー(Docusaurus)
  
@@ -142,7 +142,6 @@ pnpm build:offline  # オフライン閲覧用ビルド(hash router・検索イ�
 │   │   ├── d1-business-requirement-document/
 │   │   │   ├── SKILL.md           # スキル本体(振る舞いルール)
 │   │   │   └── template.md        # 成果物テンプレート(章構成・書き方ヒント入り)
-│   │   ├── karura-conventions/    # 横断規約スキル(各スキルが生成前に参照)
 │   │   └── ...                    # d1-* / d2-* / d3-* / d8-* / d9-* 各スキル
 │   └── settings.json              # Claude Code 設定(allowlist 等)
 ├── docs/                          # メタ情報・フェーズ用プレースホルダ
@@ -151,6 +150,7 @@ pnpm build:offline  # オフライン閲覧用ビルド(hash router・検索イ�
 ├── scripts/                       # 補助スクリプト
 │   ├── check-markers.sh           # 未確定マーカー集計
 │   └── deploy-s3.sh               # Wiki の S3 デプロイ
+├── CLAUDE.md                      # 横断規約(プレースホルダ・ID 表記・文体 等)
 ├── sidebars.ts                    # Docusaurus サイドバー定義
 ├── docusaurus.config.ts           # Docusaurus 設定
 ├── SECURITY.md                    # 脆弱性の報告手順(セキュリティポリシー)
