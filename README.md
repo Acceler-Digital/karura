@@ -75,13 +75,9 @@ KARURA の利用に必要なツールは以下の通りです。用途に応じ�
 | ツール | 用途 | 備考 |
 | --- | --- | --- |
 | [Claude Code](https://code.claude.com/) | 成果物の生成・更新(必須) | — |
-| `git` | バージョン管理・セキュリティスキャンの差分検出(必須) | 通常はプリインストール済み |
-| `bash` | セキュリティスキャン(Stop フック・pre-commit)の実行 | macOS / Linux は標準搭載。**Windows は WSL または Git Bash が必要** |
-| `jq` | セキュリティスキャンの結果整形 | macOS・多くの Linux でも**標準では未導入**のため別途インストール(例: macOS `brew install jq`、Debian/Ubuntu `apt install jq`) |
+| `git` | バージョン管理(必須) | 通常はプリインストール済み |
+| `bash` | 補助スクリプト(マーカー集計 等)の実行 | macOS / Linux は標準搭載。**Windows は WSL または Git Bash が必要** |
 | Node.js 18 以上・pnpm 12 以上 | Docusaurus での Wiki プレビュー(任意) | Confluence / Notion 等で閲覧する場合は不要。`package.json` の `packageManager` で pnpm 12.5.1 を指定しているため、Corepack 有効時は自動で切り替わる |
-
-> [!NOTE]
-> **対応 OS は macOS / Linux です。** セキュリティスキャンは bash スクリプトで実装しているため、**Windows は WSL または Git Bash 経由**で利用してください。コマンドプロンプト・PowerShell 単体ではフックが起動しません(スキャンは警告目的の advisory 設計のため成果物生成そのものは止まりませんが、コミット前チェックが効かなくなるため WSL / Git Bash を推奨します)。
 
 ### 1. セットアップ
  
@@ -89,10 +85,9 @@ KARURA の利用に必要なツールは以下の通りです。用途に応じ�
 git clone https://github.com/Acceler-Digital/karura.git
 cd karura
 pnpm install                          # Docusaurus を使う場合
-git config core.hooksPath .githooks   # pre-commit セキュリティスキャン有効化(pnpm install 時に自動実行)
 ```
 
-スキル定義・テンプレートは [.claude/skills/](.claude/skills/) 配下にあり、プロジェクトの特性に合わせてカスタマイズして使う前提です。生成完了時のセキュリティスキャン(Stop フック)は [.claude/settings.json](.claude/settings.json) で有効になります。
+スキル定義・テンプレートは [.claude/skills/](.claude/skills/) 配下にあり、プロジェクトの特性に合わせてカスタマイズして使う前提です。
  
 ### 2. 最初の成果物を生成する
  
@@ -127,51 +122,6 @@ pnpm check:markers
  
 実体は [scripts/check-markers.sh](scripts/check-markers.sh) です。マーカー記法は [karura-conventions スキル](.claude/skills/karura-conventions/SKILL.md) §1〜§3 を参照してください。
  
-### セキュリティ・スキャン
- 
-本リポジトリ(および KARURA で運用するリポジトリ)は Claude Code で成果物を生成します。公開リポジトリにシークレットや機微情報が混入しないよう、**生成完了時**と**コミット時**の二段でスキャンを行います。スキャンには `bash` / `git` / `jq` のみを使用し、外部ツールの追加インストールは不要です(導入方法は[環境準備](#環境準備)を参照)。
- 
-#### 検出対象
- 
-| 系統 | 例 | 既定の重大度 |
-|---|---|---|
-| シークレット/認証情報 | 秘密鍵・AWS/Google/Slack/GitHub のキーやトークン・URL 埋め込み資格情報・パスワードの代入 等 | high |
-| 機微情報 | 長い数字列(マイナンバー/カード番号)・電話番号・実在メール | medium |
-| コード脆弱性(軽量) | `eval`/`exec`・危険な HTML 注入 等(コードファイルのみ) | medium |
- 
-`{{プレースホルダ}}` や `example.com` 等のダミーは誤検知として自動除外します。
- 
-#### 二段の防御
- 
-1. **生成完了時(Claude Code の Stop フック)** — Claude が応答を終えると未コミットの変更を自動スキャンし、検出があれば警告を表示します。**停止はブロックしません(気付き目的)。**
-   設定: [.claude/settings.json](.claude/settings.json) → [scripts/security-scan-hook.sh](scripts/security-scan-hook.sh)
-2. **コミット時(git pre-commit / 最終防衛線)** — ステージ済みファイルをスキャンし、**high を検出するとコミットを中止**します。
-   設定: [.githooks/pre-commit](.githooks/pre-commit) → [scripts/security-scan.sh](scripts/security-scan.sh)
- 
-#### セットアップ(クローン後に一度だけ)
- 
-pre-commit フックを有効化するため、リポジトリ直下で次を実行します(`pnpm install` 時に `prepare` で自動実行されます)。
- 
-```bash
-git config core.hooksPath .githooks
-```
- 
-#### 手動実行
- 
-```bash
-pnpm check:security                                  # HEAD との差分 + 未追跡ファイルを検査
-bash scripts/security-scan.sh --staged               # ステージ済みファイル
-bash scripts/security-scan.sh path/to/file.md        # 指定ファイル
-```
- 
-#### 運用メモ
- 
-- **誤検知でコミットできない場合**: 確実に誤検知のときのみ `git commit --no-verify` で回避できます。
-- **ブロック閾値の変更**: `SECURITY_BLOCK_LEVEL=medium` を付けると medium もブロック対象になります。
-- **深いコード脆弱性レビュー**: 軽量パターンを超える解析が必要なときは Claude Code の `/security-review` を利用してください。
- 
-なお、KARURA 自体に脆弱性を発見された場合の報告手順は [SECURITY.md](SECURITY.md) を参照してください。
- 
 ### Wiki プレビュー(Docusaurus)
  
 [docs/](docs/) 配下の Markdown は [Docusaurus 3](https://docusaurus.io/) で Wiki サイトとしてプレビューできます。プロジェクト側で Confluence や Notion を使う場合は不要です。サイドバー構成は [sidebars.ts](sidebars.ts) を参照してください。
@@ -194,17 +144,13 @@ pnpm build:offline  # オフライン閲覧用ビルド(hash router・検索イ�
 │   │   │   └── template.md        # 成果物テンプレート(章構成・書き方ヒント入り)
 │   │   ├── karura-conventions/    # 横断規約スキル(各スキルが生成前に参照)
 │   │   └── ...                    # d1-* / d2-* / d3-* / d8-* / d9-* 各スキル
-│   └── settings.json              # Claude Code 設定(allowlist・Stop フック 等)
+│   └── settings.json              # Claude Code 設定(allowlist 等)
 ├── docs/                          # メタ情報・フェーズ用プレースホルダ
 │   └── D0.project-management/     # 成果物フロー・プロジェクトインデックス
 ├── handbook/                      # KARURA の設計思想・方法論の解説(Docusaurus 非依存)
 ├── scripts/                       # 補助スクリプト
 │   ├── check-markers.sh           # 未確定マーカー集計
-│   ├── security-scan.sh           # セキュリティスキャン本体
-│   ├── security-scan-hook.sh      # 生成完了時セキュリティスキャン(Stop フック用ラッパ)
 │   └── deploy-s3.sh               # Wiki の S3 デプロイ
-├── .githooks/
-│   └── pre-commit                 # コミット時セキュリティスキャン(scripts/security-scan.sh を呼ぶ)
 ├── sidebars.ts                    # Docusaurus サイドバー定義
 ├── docusaurus.config.ts           # Docusaurus 設定
 ├── SECURITY.md                    # 脆弱性の報告手順(セキュリティポリシー)
