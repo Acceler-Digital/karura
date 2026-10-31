@@ -6,7 +6,7 @@ description: 成果物を生成・更新する際に必ず従う横断規約集�
 # プロジェクト共通の慣習
 
 本リポジトリで Claude を介して成果物を生成・更新する際の共通ルール。
-個別の成果物固有のルール(章構成・記述粒度・上下流関係など)は `plugin/skills/<skill-name>/SKILL.md` を参照する。
+個別の成果物固有のルール(章構成・記述粒度・上下流関係など)は `.claude/skills/<skill-name>/SKILL.md` を参照する。
 
 ## 1. プレースホルダ書式
 
@@ -124,8 +124,8 @@ Claude が推測・仮置きで埋めた箇所には可視マーカーを残す�
 | 種類 | 置き場所 |
 |---|---|
 | 成果物本体 | `docs/<phase>/<artifact-name>.md` |
-| 成果物スキル | `plugin/skills/<phase>-<artifact-name>/SKILL.md` |
-| 成果物テンプレート | `plugin/skills/<phase>-<artifact-name>/template.md` |
+| 成果物スキル | `.claude/skills/<phase>-<artifact-name>/SKILL.md` |
+| 成果物テンプレート | `.claude/skills/<phase>-<artifact-name>/template.md` |
 
 `<phase>` は `D0.project-management`, `D1.business-requirements`, `D2.system-requirements` などのフェーズ別ディレクトリ名。
 スキル名は `<phase>-<artifact-kebab>` 形式(例: `d1-business-requirement-document`)。
@@ -354,7 +354,7 @@ Claude がコミットを作成する際は以下を厳守する。
 
 ## 10. スキル description の記述方針
 
-成果物スキル(`plugin/skills/<skill-name>/SKILL.md`)の frontmatter `description` は **最小限** に保つ。`description` の唯一の役割は **ルーティング判定**(モデルが全スキルの description だけを読み比べ、どれを発火すべきか決める)であり、判定に効かない情報を盛るとノイズになって発火精度を下げる。
+成果物スキル(`.claude/skills/<skill-name>/SKILL.md`)の frontmatter `description` は **最小限** に保つ。`description` の唯一の役割は **ルーティング判定**(モデルが全スキルの description だけを読み比べ、どれを発火すべきか決める)であり、判定に効かない情報を盛るとノイズになって発火精度を下げる。
 
 ### description に書くもの(これだけ)
 

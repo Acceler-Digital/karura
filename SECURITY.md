@@ -37,9 +37,9 @@ GitHub の **Private vulnerability reporting** をご利用ください。
 
 **対象** — 本リポジトリに含まれるもの
 
-- スキル定義・テンプレート([plugin/skills/](plugin/skills/))
-- セキュリティスキャン等のスクリプト([plugin/scripts/](plugin/scripts/) ・ [scripts/](scripts/) ・ [.githooks/](.githooks/))
-- プラグイン設定・フック定義([plugin/hooks/](plugin/hooks/) ・ [.claude-plugin/](.claude-plugin/))
+- スキル定義・テンプレート([.claude/skills/](.claude/skills/))
+- 補助スクリプト([scripts/](scripts/))
+- Claude Code 設定([.claude/settings.json](.claude/settings.json))
 - Docusaurus 設定([docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts))
 
 **対象外**
@@ -55,7 +55,3 @@ GitHub の **Private vulnerability reporting** をご利用ください。
 ## 謝辞
 
 ご希望があれば、修正後に公開する Security Advisory に報告者としてお名前を記載します。報告時にその旨をお知らせください。
-
----
-
-なお、本リポジトリに同梱している**シークレット混入防止のセキュリティスキャン**(生成完了時の Stop フック / コミット時の pre-commit)については、[README.md の「セキュリティ・スキャン」](README.md#セキュリティスキャン)を参照してください。
