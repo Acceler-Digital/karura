@@ -13,5 +13,17 @@
       "mcp__claude_ai_Figma__get_code_connect_suggestions",
       "mcp__claude_ai_Figma__get_context_for_code_connect"
     ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/security-scan-hook.sh\""
+          }
+        ]
+      }
+    ]
   }
 }

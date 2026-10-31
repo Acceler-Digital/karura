@@ -7,9 +7,9 @@
 #   3. コード脆弱性(軽量)      … eval/exec・危険な HTML 注入 等(コードファイルのみ)        → medium
 #
 # 使い方:
-#   plugin/scripts/security-scan.sh                 … HEAD との差分(未コミットの変更)+ 未追跡ファイルを検査
-#   plugin/scripts/security-scan.sh --staged        … ステージ済みファイルを検査(pre-commit 用)
-#   plugin/scripts/security-scan.sh <file> [file..] … 指定ファイルを検査
+#   scripts/security-scan.sh                 … HEAD との差分(未コミットの変更)+ 未追跡ファイルを検査
+#   scripts/security-scan.sh --staged        … ステージ済みファイルを検査(pre-commit 用)
+#   scripts/security-scan.sh <file> [file..] … 指定ファイルを検査
 #
 # 終了コード:
 #   0 … ブロック対象(既定: high)なし

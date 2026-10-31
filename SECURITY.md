@@ -37,9 +37,9 @@ GitHub の **Private vulnerability reporting** をご利用ください。
 
 **対象** — 本リポジトリに含まれるもの
 
-- スキル定義・テンプレート([plugin/skills/](plugin/skills/))
-- セキュリティスキャン等のスクリプト([plugin/scripts/](plugin/scripts/) ・ [scripts/](scripts/) ・ [.githooks/](.githooks/))
-- プラグイン設定・フック定義([plugin/hooks/](plugin/hooks/) ・ [.claude-plugin/](.claude-plugin/))
+- スキル定義・テンプレート([.claude/skills/](.claude/skills/))
+- セキュリティスキャン等のスクリプト([scripts/](scripts/) ・ [.githooks/](.githooks/))
+- Claude Code 設定・フック定義([.claude/settings.json](.claude/settings.json))
 - Docusaurus 設定([docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts))
 
 **対象外**
