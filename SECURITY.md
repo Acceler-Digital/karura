@@ -40,7 +40,6 @@ GitHub の **Private vulnerability reporting** をご利用ください。
 - スキル定義・テンプレート([.claude/skills/](.claude/skills/))
 - 補助スクリプト([scripts/](scripts/))
 - Claude Code 設定([.claude/settings.json](.claude/settings.json))
-- Docusaurus 設定([docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts))
 
 **対象外**
 

@@ -7,7 +7,6 @@
 [![Release](https://img.shields.io/github/v/release/Acceler-Digital/karura?include_prereleases&label=release&style=flat-square)](https://github.com/Acceler-Digital/karura/releases)
 [![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](#環境準備)
 [![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A512-F69220?style=flat-square&logo=pnpm&logoColor=white)](#環境準備)
-[![Docusaurus](https://img.shields.io/badge/docs-Docusaurus%203-3ECC5F?style=flat-square&logo=docusaurus)](https://docusaurus.io/)
 
 [![成果物フロー](https://img.shields.io/badge/🗺_成果物フロー-181717?style=for-the-badge)](docs/D0.project-management/artifact-flow.md)
 [![ハンドブック](https://img.shields.io/badge/📚_ハンドブック-181717?style=for-the-badge)](handbook/README.md)
@@ -44,7 +43,6 @@ KARURAは、Acceler DigitalのAI駆動開発の知見を体系化した、エン
 | **プロジェクト共通規約** | [CLAUDE.md](CLAUDE.md) | プレースホルダ・ID 表記・文体などの横断規約。Claude Code が常に読み込み、各スキルの生成・更新時に適用。 |
 | **成果物フロー** | [docs/D0.project-management/artifact-flow.md](docs/D0.project-management/artifact-flow.md) | 全成果物の input/outputの依存関係・生成順の定義 |
 | **周辺スクリプト群** | [scripts/](scripts/) | セキュリティガードレールや、マーカー集計等の補助スクリプト |
-| **Wiki(Docusaurus)** | [docusaurus.config.ts](docusaurus.config.ts) ・ [sidebars.ts](sidebars.ts)等 | プロジェクトで使用する成果物をWikiサイトとしてプレビュー(Confluence/Notion等を使う場合は不要) |
  
 ## 成果物フロー
 
@@ -90,14 +88,13 @@ KARURA の利用に必要なツールは以下の通りです。用途に応じ�
 | [Claude Code](https://code.claude.com/) | 成果物の生成・更新(必須) | — |
 | `git` | バージョン管理(必須) | 通常はプリインストール済み |
 | `bash` | 補助スクリプト(マーカー集計 等)の実行 | macOS / Linux は標準搭載。**Windows は WSL または Git Bash が必要** |
-| Node.js 18 以上・pnpm 12 以上 | Docusaurus での Wiki プレビュー(任意) | Confluence / Notion 等で閲覧する場合は不要。`package.json` の `packageManager` で pnpm 12.5.1 を指定しているため、Corepack 有効時は自動で切り替わる |
+| Node.js 18 以上・pnpm 12 以上 | `pnpm check:markers` の実行(任意) | `bash scripts/check-markers.sh` で直接実行する場合は不要。`package.json` の `packageManager` で pnpm 12.5.1 を指定しているため、Corepack 有効時は自動で切り替わる |
 
 ### 1. セットアップ
  
 ```bash
 git clone https://github.com/Acceler-Digital/karura.git
 cd karura
-pnpm install                          # Docusaurus を使う場合
 ```
 
 スキル定義・テンプレートは [.claude/skills/](.claude/skills/) 配下にあり、プロジェクトの特性に合わせてカスタマイズして使う前提です。
@@ -135,17 +132,6 @@ pnpm check:markers
  
 実体は [scripts/check-markers.sh](scripts/check-markers.sh) です。マーカー記法は [CLAUDE.md](CLAUDE.md) §1〜§3 を参照してください。
  
-### Wiki プレビュー(Docusaurus)
- 
-[docs/](docs/) 配下の Markdown は [Docusaurus 3](https://docusaurus.io/) で Wiki サイトとしてプレビューできます。プロジェクト側で Confluence や Notion を使う場合は不要です。サイドバー構成は [sidebars.ts](sidebars.ts) を参照してください。
- 
-```bash
-pnpm start          # 開発サーバー起動(http://localhost:3000)
-pnpm build          # 本番ビルド
-pnpm serve          # ビルド後のプレビュー
-pnpm build:offline  # オフライン閲覧用ビルド(hash router・検索インデックス同梱)
-```
-
 ## リポジトリ構成
  
 ```
@@ -159,13 +145,10 @@ pnpm build:offline  # オフライン閲覧用ビルド(hash router・検索イ�
 │   └── settings.json              # Claude Code 設定(allowlist 等)
 ├── docs/                          # メタ情報・フェーズ用プレースホルダ
 │   └── D0.project-management/     # 成果物フロー・プロジェクトインデックス
-├── handbook/                      # KARURA の設計思想・方法論の解説(Docusaurus 非依存)
+├── handbook/                      # KARURA の設計思想・方法論の解説
 ├── scripts/                       # 補助スクリプト
-│   ├── check-markers.sh           # 未確定マーカー集計
-│   └── deploy-s3.sh               # Wiki の S3 デプロイ
+│   └── check-markers.sh           # 未確定マーカー集計
 ├── CLAUDE.md                      # 横断規約(プレースホルダ・ID 表記・文体 等)
-├── sidebars.ts                    # Docusaurus サイドバー定義
-├── docusaurus.config.ts           # Docusaurus 設定
 ├── SECURITY.md                    # 脆弱性の報告手順(セキュリティポリシー)
 └── package.json
 ```
