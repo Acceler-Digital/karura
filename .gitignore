@@ -3,9 +3,6 @@ node_modules/
 .pnpm-store/
 
 # Build outputs
-.docusaurus/
-build/
-build-normal/
 dist/
 *.tgz
 
