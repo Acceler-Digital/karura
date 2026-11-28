@@ -1,0 +1,71 @@
+# GitHub でリリースを作ると、npm に「公開待ち」として上げる。npmjs.com で承認すると公開される。
+#
+# リリースの手順:
+#   1. package.json の version を上げる PR を作り、main にマージする
+#   2. GitHub でリリースを作る。タグは v<version>(例: v0.2.1)
+#   3. このワークフローがテストしてから、npm に公開待ちとして上げる
+#   4. npmjs.com の Staged Packages で、2FA で承認する
+#
+# npm 側の Trusted Publishing は、このファイル名(release.yml)と環境名(npm)に限定して登録する。
+# 登録から 2 日以内に初回の公開を成功させないと失効するため、リリースの直前に登録する。
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write # npm の Trusted Publishing で使う OIDC トークンを発行する
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+          registry-url: https://registry.npmjs.org
+
+      - name: タグが package.json のバージョンと一致するか確かめる
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::タグ $TAG が package.json のバージョン $version と一致しません。タグは v$version にしてください。"
+            exit 1
+          fi
+
+      - run: npm test
+
+      # 0.2.0 は手元から公開したため、リリースを作った時点で公開済みになっている
+      - name: 公開済みのバージョンか確かめる
+        id: registry
+        run: |
+          name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          status=$(curl -s -o /dev/null -w '%{http_code}' "https://registry.npmjs.org/$name/$version")
+          case "$status" in
+            200)
+              echo "$name@$version は公開済みのため、公開を飛ばします。"
+              echo "published=true" >> "$GITHUB_OUTPUT"
+              ;;
+            404)
+              echo "published=false" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "::error::npm に公開済みかを確かめられませんでした(HTTP $status)。"
+              exit 1
+              ;;
+          esac
+
+      - name: npm に公開待ちとして上げる
+        if: steps.registry.outputs.published == 'false'
+        run: npm stage publish
