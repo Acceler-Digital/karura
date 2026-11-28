@@ -1,3 +1,4 @@
+# karura CLI(npm パッケージ karura)を npm に公開する。
 # GitHub でリリースを作ると、npm に「公開待ち」として上げる。npmjs.com で承認すると公開される。
 #
 # リリースの手順:
@@ -6,9 +7,9 @@
 #   3. このワークフローがテストしてから、npm に公開待ちとして上げる
 #   4. npmjs.com の Staged Packages で、2FA で承認する
 #
-# npm 側の Trusted Publishing は、このファイル名(release.yml)と環境名(npm)に限定して登録する。
+# npm 側の Trusted Publishing は、このファイル名(cli-npm-publish.yml)と環境名(npm)に限定して登録する。
 # 登録から 2 日以内に初回の公開を成功させないと失効するため、リリースの直前に登録する。
-name: Release
+name: CLI の npm 公開
 
 on:
   release:
