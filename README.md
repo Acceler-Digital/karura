@@ -41,7 +41,7 @@ KARURAは、Acceler DigitalのAI駆動開発の知見を体系化した、エン
 | **プロジェクト共通規約** | [CLAUDE.md](CLAUDE.md) | プレースホルダ・ID表記・文体などの横断規約。Claude Codeが常に読み込み、各スキルの生成・更新時に適用。 |
 | **成果物フロー** | [docs/D0.project-management/artifact-flow.md](docs/D0.project-management/artifact-flow.md) | 全成果物のinput/outputの依存関係・生成順の定義 |
 | **周辺スクリプト群** | [scripts/](scripts/) | セキュリティガードレールや、マーカー集計等の補助スクリプト |
-| **karuraコマンド** | [cli/](cli/) | 上記一式を自分のプロジェクトに導入するCLI。`npx karura init`で実行する。 |
+| **karuraコマンド** | [cli/](cli/) | 上記一式を自分のプロジェクトに導入するCLI。`npx @acceler-digital/karura init`で実行する。 |
  
 ## 成果物フロー
 
@@ -96,14 +96,14 @@ KARURAの利用に必要なツールは以下の通りです。用途に応じ�
 
 ```bash
 cd <自分のプロジェクト>
-npx karura init
+npx @acceler-digital/karura init
 ```
 
 `.claude/`配下一式(スキル定義・テンプレート、Claude Codeの設定 等)、共通規約(`CLAUDE.md`)、成果物フロー(`docs/D0.project-management/`)、補助スクリプト(`scripts/`)がコピーされます。スキル定義・テンプレートは、プロジェクトの特性に合わせてカスタマイズして使う前提です。
 
 - **既存のファイルは上書きしません。** 同じパスに内容の異なるファイルがあると、何も変更せずに止まります。上書きしてよい場合は`--force`を付けます。`.claude/settings.json`だけは例外で、既存の設定を残したままKARURAの設定を足します。
 - **実行前に確認できます。** `--dry-run`を付けると、書き込まずに操作の一覧だけを表示します。
-- **バージョンを固定できます。** `npx karura@0.2.0 init`のように指定してください(冒頭の注記を参照)。
+- **バージョンを固定できます。** `npx @acceler-digital/karura@0.2.0 init`のように指定してください(冒頭の注記を参照)。
 - **導入記録をコミットしてください。** 導入したバージョンとファイルごとのハッシュを`.karura/manifest.json`に記録します。今後のバージョンアップで使います。
 
 KARURA本体を改変・コントリビュートする場合は、本リポジトリを`git clone`してください。
@@ -152,7 +152,7 @@ bash scripts/check-markers.sh
 │   │   │   └── template.md        # 成果物テンプレート(章構成・書き方ヒント入り)
 │   │   └── ...                    # d1-* / d2-* / d3-* / d8-* / d9-* 各スキル
 │   └── settings.json              # Claude Code 設定(allowlist 等)
-├── cli/                           # karura コマンド(npx karura init)の実装とテスト
+├── cli/                           # karura コマンド(npx @acceler-digital/karura init)の実装とテスト
 ├── docs/                          # メタ情報・フェーズ用プレースホルダ
 │   └── D0.project-management/     # 成果物フロー・プロジェクトインデックス
 ├── handbook/                      # KARURA の設計思想・方法論の解説

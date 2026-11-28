@@ -128,7 +128,7 @@ try {
 } catch (error) {
   console.error(`エラー: ${error.message}`);
   if (error instanceof UsageError) {
-    console.error('\n使い方は karura --help で確認できます。');
+    console.error('\n使い方は --help を付けて実行すると確認できます。');
     process.exitCode = EXIT_CODE.USAGE_ERROR;
   } else {
     process.exitCode = EXIT_CODE.FAILURE;

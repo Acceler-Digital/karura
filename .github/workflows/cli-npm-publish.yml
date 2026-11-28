@@ -1,4 +1,4 @@
-# karura CLI(npm パッケージ karura)を npm に公開する。
+# karura CLI(npm パッケージ @acceler-digital/karura)を npm に公開する。
 # GitHub でリリースを作ると、npm に「公開待ち」として上げる。npmjs.com で承認すると公開される。
 #
 # リリースの手順:
