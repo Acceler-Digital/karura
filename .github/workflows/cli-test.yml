@@ -1,4 +1,4 @@
-# karura CLI(npm パッケージ karura)のテスト。
+# karura CLI(npm パッケージ @acceler-digital/karura)のテスト。
 # パッケージには .claude/ などのスキル・規約一式も同梱するため、それらだけを変えた PR でも実行する。
 name: CLI テスト
 
