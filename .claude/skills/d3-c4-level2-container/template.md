@@ -1,5 +1,5 @@
 <!--
-振る舞いルールは `.claude/skills/d3-c4-level2-container/SKILL.md`、汎用規約はリポジトリ直下の `CLAUDE.md` を参照
+振る舞いルールは`.claude/skills/d3-c4-level2-container/SKILL.md`、汎用規約はリポジトリ直下の`CLAUDE.md`を参照
 -->
 
 # C4モデル レベル2: コンテナ
@@ -48,15 +48,15 @@ flowchart LR
     style svc fill:none,stroke:#438dd5,stroke-width:1px;
 ```
 
-> ⚠️ **要確認**: {{ADR に基づかない連携方式・根拠となる UC が無い線}}
+> ⚠️ **要確認**: {{ADRに基づかない連携方式・根拠となるUCが無い線}}
 
 ## コンテナ
 
 <!-- HINT:
 - 種別: SPA / BFF / 業務サービス / 非同期処理
-- 設計根拠: ADR に基づく場合は ADR の ID、それ以外は分割の理由と末尾に【要確認】
+- 設計根拠: ADRに基づく場合はADRのID、それ以外は分割の理由と末尾に【要確認】
 -->
 
-| ID | 種別 | 名称 | 責務 | 設計根拠 | 関連 UC |
+| ID | 種別 | 名称 | 責務 | 設計根拠 | 関連UC |
 |---|---|---|---|---|---|
 | {{CNT-N}} | {{種別}} | {{コンテナ名}} | {{責務}} | {{設計根拠}} | {{UC-N〜M}} |

@@ -1,0 +1,30 @@
+# karura CLI(npm パッケージ karura)のテスト。
+# パッケージには .claude/ などのスキル・規約一式も同梱するため、それらだけを変えた PR でも実行する。
+name: CLI テスト
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    # 企業の Windows 端末での利用も想定し、Linux と Windows の両方で確かめる
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        # package.json の engines の下限と、最新の LTS
+        node: [22, 26]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm test
