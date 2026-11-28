@@ -15,10 +15,9 @@ Thumbs.db
 # AI Context (local only)
 .ai-context/
 
-# Claude Code config (skills と project-shared settings は共有、それ以外は local only)
-.claude/*
-!.claude/skills/
-!.claude/skills/**
-!.claude/settings.json
-# skills 配下の再包含で取り込まれる OS ジャンクは再度除外
-.claude/skills/**/.DS_Store
+# Claude Code の個人用設定(.claude/ 配下のそれ以外はすべて共有する)
+.claude/settings.local.json
+
+# Node.js (karura CLI)
+node_modules/
+*.tgz

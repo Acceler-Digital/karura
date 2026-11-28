@@ -1,0 +1,45 @@
+{
+  "//": [
+    "このpackage.jsonは、npmパッケージであるkarura CLIの定義専用です。",
+    "KARURAはエンタープライズでの利用を想定し、スキル一式をnpmパッケージに同梱しています。企業ではnpmを社内ミラー経由で使える一方、github.comへのアクセスは制限されていることがあるため、導入時の通信をnpmだけで完結させるためです。また、同梱にすることで、パッケージのバージョンとスキルのバージョンも常に一致する設計を想定しました。",
+    "package.jsonの配置場所がルート配下にある意図は、npmはpackage.jsonのあるフォルダ配下のファイルしかパッケージに含められない仕様であり、スキル一式(.claude/skills/ 等)を同梱したいため、同じリポジトリ直下に置いています。",
+    "ここに依存パッケージを足すと、npx karura init のたびに利用者がダウンロードすることになってしまうため、別の用途でNodeが必要になった場合は、このファイルには足さず、その都度置き方を検討してください。",
+    "files に並べたもののうち、cli/ 以外は karura init で導入先にコピーされます。files にはパスをそのまま書き、ワイルドカードは使わないでください。"
+  ],
+  "name": "karura",
+  "version": "0.2.0",
+  "description": "エンタープライズ向けAI駆動開発総合フレームワーク KARURA のスキル・規約一式をプロジェクトに導入するCLI",
+  "keywords": [
+    "karura",
+    "claude-code",
+    "ai-driven-development",
+    "skills"
+  ],
+  "homepage": "https://github.com/Acceler-Digital/karura",
+  "bugs": "https://github.com/Acceler-Digital/karura/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Acceler-Digital/karura.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Acceler Digital",
+  "type": "module",
+  "bin": {
+    "karura": "cli/bin/karura.js"
+  },
+  "files": [
+    "cli/bin",
+    "cli/lib",
+    ".claude",
+    "scripts/check-markers.sh",
+    "CLAUDE.md",
+    "docs/D0.project-management/artifact-flow.md",
+    "docs/D0.project-management/artifact-flow.drawio.svg"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
