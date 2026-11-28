@@ -5,8 +5,6 @@
  
 [![License](https://img.shields.io/github/license/Acceler-Digital/karura?style=flat-square)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/Acceler-Digital/karura?include_prereleases&label=release&style=flat-square)](https://github.com/Acceler-Digital/karura/releases)
-[![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](#環境準備)
-[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A512-F69220?style=flat-square&logo=pnpm&logoColor=white)](#環境準備)
 
 [![成果物フロー](https://img.shields.io/badge/🗺_成果物フロー-181717?style=for-the-badge)](docs/D0.project-management/artifact-flow.md)
 [![ハンドブック](https://img.shields.io/badge/📚_ハンドブック-181717?style=for-the-badge)](handbook/README.md)
@@ -88,7 +86,6 @@ KARURA の利用に必要なツールは以下の通りです。用途に応じ�
 | [Claude Code](https://code.claude.com/) | 成果物の生成・更新(必須) | — |
 | `git` | バージョン管理(必須) | 通常はプリインストール済み |
 | `bash` | 補助スクリプト(マーカー集計 等)の実行 | macOS / Linux は標準搭載。**Windows は WSL または Git Bash が必要** |
-| Node.js 18 以上・pnpm 12 以上 | `pnpm check:markers` の実行(任意) | `bash scripts/check-markers.sh` で直接実行する場合は不要。`package.json` の `packageManager` で pnpm 12.5.1 を指定しているため、Corepack 有効時は自動で切り替わる |
 
 ### 1. セットアップ
  
@@ -127,10 +124,10 @@ cd karura
 AI は自身で生成した内容に自信がない場合、要確認マーカーを付けます。[docs/](docs/) 配下に残っている未確定マーカー(プレースホルダ `{{xxx}}` と要確認マーカー `要確認`)の件数・該当ファイルを以下で集計できます。レビュー時の気付き支援用で、CI で fail させる目的ではありません(スクリプトは常に exit 0)。
  
 ```bash
-pnpm check:markers
+bash scripts/check-markers.sh
 ```
  
-実体は [scripts/check-markers.sh](scripts/check-markers.sh) です。マーカー記法は [CLAUDE.md](CLAUDE.md) §1〜§3 を参照してください。
+スクリプトは [scripts/check-markers.sh](scripts/check-markers.sh) です。マーカー記法は [CLAUDE.md](CLAUDE.md) §1〜§3 を参照してください。
  
 ## リポジトリ構成
  
@@ -149,8 +146,7 @@ pnpm check:markers
 ├── scripts/                       # 補助スクリプト
 │   └── check-markers.sh           # 未確定マーカー集計
 ├── CLAUDE.md                      # 横断規約(プレースホルダ・ID 表記・文体 等)
-├── SECURITY.md                    # 脆弱性の報告手順(セキュリティポリシー)
-└── package.json
+└── SECURITY.md                    # 脆弱性の報告手順(セキュリティポリシー)
 ```
 
 ## 成果物サンプル

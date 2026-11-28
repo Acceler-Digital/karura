@@ -1,11 +1,3 @@
-# Dependencies
-node_modules/
-.pnpm-store/
-
-# Build outputs
-dist/
-*.tgz
-
 # Environment
 .env
 .env.local
